@@ -1,0 +1,822 @@
+{
+  "app": {
+    "name": "Documentation & Demo",
+    "scope": "development",
+    "rendering_iter": 2,
+    "entry": {
+      "side": {
+        "target": "{{app.target.side}}",
+        "url": "{{pub.dir}}/sidebar"
+      },
+      "nav": {
+        "target": "{{app.target.nav}}",
+        "url": "{{pub.dir}}/navbar"
+      },
+      "main": {
+        "target": "{{app.target.main}}",
+        "url": "{{pub.dir}}/welcome"
+      },
+      "filter": {
+        "target": "{{app.target.footer}}",
+        "url": "{{pub.dir}}/filter"
+      }
+    },
+    "dir": "/sites",
+    "url": "",
+    "target": {
+      "nav": "navbar",
+      "side": "sidebar",
+      "main": "main",
+      "footer": "footer"
+    },
+    "security": {
+      "token": {
+        "jwt": ""
+      }
+    },
+    "filter": "",
+    "ds": {
+      "last": true
+    }
+  },
+  "lang": {
+    "Money Description": "Out of the Box we use Intl.NumberFormat.",
+    "de": {
+      "money": {
+        "locals": "de-DE",
+        "currency": "EUR",
+        "style": "currency"
+      }
+    },
+    "en": {
+      "money": {
+        "locals": "en-GB",
+        "currency": "GBP",
+        "style": "currency"
+      }
+    },
+    "recently": "de",
+    "current": "de"
+  },
+  "initializer": {
+    "gui": {
+      "on": {
+        "showUser": {
+          "key": "modal.user",
+          "constraint": "show",
+          "fn": "showUser"
+        },
+        "showSignal": {
+          "key": "signal",
+          "constraint": "show",
+          "fn": "showSignal"
+        },
+        "showDataStore": {
+          "key": "ds",
+          "constraint": "show",
+          "fn": "showDataStore"
+        },
+        "showDataInformationTree": {
+          "key": "dit",
+          "constraint": "show",
+          "fn": "showDataInformationTree"
+        },
+        "showSmartElement": {
+          "key": "smart",
+          "constraint": "show",
+          "fn": "showSmartElement"
+        },
+        "showBootstrap": {
+          "key": "bootstrap",
+          "constraint": "show",
+          "fn": "showBootstrap"
+        },
+        "showDom": {
+          "key": "dom",
+          "constraint": "show",
+          "fn": "showDom"
+        },
+        "showRest": {
+          "key": "rest",
+          "constraint": "show",
+          "fn": "showRest"
+        },
+        "showList": {
+          "key": "docList",
+          "constraint": "show",
+          "fn": "showList"
+        },
+        "showSite": {
+          "key": "site",
+          "constraint": "show",
+          "fn": "showSite"
+        },
+        "showLang": {
+          "key": "lang",
+          "constraint": "show",
+          "fn": "showLang"
+        },
+        "showTools": {
+          "key": "tools",
+          "constraint": "show",
+          "fn": "showTools"
+        },
+        "showInstall": {
+          "key": "install",
+          "constraint": "show",
+          "fn": "showInstall"
+        }
+      }
+    }
+  },
+  "dashboard": {
+    "entry": {
+      "nav": {
+        "target": "{{app.target.nav}}",
+        "url": "{{pub.dir}}/navbar"
+      },
+      "main": {
+        "target": "{{app.target.main}}",
+        "url": "{{pub.dir}}/welcome"
+      }
+    },
+    "show": {
+      "click": {
+        "emit1": {
+          "key": "dashboard",
+          "constraint": "show"
+        },
+        "emit2": {
+          "key": "sidebar",
+          "constraint": "close",
+          "data": {
+            "nodes": {
+              "sidebar": "public.sidebar.ptr"
+            }
+          }
+        }
+      }
+    }
+  },
+  "clp": {
+    "ds": {
+      "name": "clp",
+      "ptr": true
+    }
+  },
+  "pub": {
+    "dir": "{{app.dir}}/public",
+    "navbar": {
+      "show": {
+        "edit": false
+      }
+    }
+  },
+  "list": {
+    "on": {
+      "fetchData": {
+        "key": "filter",
+        "constraint": "applied",
+        "fn": "fetchData"
+      },
+      "editRow": {
+        "key": "edit",
+        "constraint": "row",
+        "fn": "editRow"
+      },
+      "newRow": {
+        "key": "new",
+        "constraint": "row",
+        "fn": "newRow"
+      },
+      "deleteRow": {
+        "key": "delete",
+        "constraint": "row",
+        "fn": "deleteRow"
+      }
+    }
+  },
+  "site": {
+    "on": {
+      "showList": {
+        "key": "list",
+        "constraint": "show",
+        "fn": "showList"
+      },
+      "saveRow": {
+        "key": "row",
+        "constraint": "save",
+        "fn": "saveRow"
+      }
+    }
+  },
+  "public": {
+    "sidebar": {},
+    "nav": {
+      "left": {
+        "showSidebar": {
+          "click": {
+            "emit": {
+              "key": "sidebar",
+              "constraint": "show",
+              "data": {
+                "nodes": {
+                  "sidebar": "public.sidebar.ptr"
+                }
+              }
+            }
+          }
+        }
+      },
+      "right": {
+        "showFilter": {
+          "click": {
+            "emit1": {
+              "key": "filter",
+              "constraint": "show",
+              "data": {
+                "nodes": {
+                  "filterWindow": "public.filter.main.ptr"
+                }
+              }
+            }
+          }
+        },
+        "langDE": {
+          "click": {
+            "emit": {
+              "key": "lang",
+              "constraint": "de"
+            }
+          }
+        },
+        "langEN": {
+          "click": {
+            "emit": {
+              "key": "lang",
+              "constraint": "en"
+            }
+          }
+        },
+        "editRow": {
+          "click": {
+            "emit": {
+              "key": "edit",
+              "constraint": "row"
+            }
+          }
+        },
+        "showList": {
+          "click": {
+            "emit": {
+              "key": "list",
+              "constraint": "show",
+              "data": {
+                "nodes": {
+                  "site": "list.ptr"
+                }
+              }
+            }
+          }
+        },
+        "saveRow": {
+          "click": {
+            "emit1": {
+              "key": "row",
+              "constraint": "save"
+            },
+            "emit2": {
+              "key": "list",
+              "constraint": "show",
+              "data": {
+                "nodes": {
+                  "site": "list.ptr"
+                }
+              }
+            }
+          }
+        },
+        "newRow": {
+          "click": {
+            "emit1": {
+              "key": "new",
+              "constraint": "row"
+            },
+            "emit2": {
+              "key": "edit",
+              "constraint": "row"
+            }
+          }
+        },
+        "deleteRow": {
+          "click": {
+            "emit": {
+              "key": "delete",
+              "constraint": "row"
+            }
+          }
+        }
+      }
+    },
+    "filter": {
+      "main": {
+        "ptr": false
+      },
+      "value": {
+        "ptr": false
+      },
+      "applied": {
+        "ptr": false,
+        "click": {
+          "emit1": {
+            "key": "filter",
+            "constraint": "applied",
+            "data": {
+              "nodes": {
+                "filterValue": "public.filter.value.ptr"
+              }
+            }
+          },
+          "emit2": {
+            "key": "filter",
+            "constraint": "close",
+            "data": {
+              "nodes": {
+                "filterWindow": "public.filter.main.ptr"
+              }
+            }
+          }
+        }
+      }
+    },
+    "controller": {
+      "on": {
+        "showSidebar": {
+          "key": "sidebar",
+          "constraint": "show",
+          "fn": "showSidebar"
+        },
+        "closeSidebar": {
+          "key": "sidebar",
+          "constraint": "close",
+          "fn": "closeSidebar"
+        },
+        "showDashboard": {
+          "key": "dashboard",
+          "constraint": "show",
+          "fn": "showDashboard"
+        },
+        "showFilter": {
+          "key": "filter",
+          "constraint": "show",
+          "fn": "showFilter"
+        },
+        "closeFilter": {
+          "key": "filter",
+          "constraint": "close",
+          "fn": "closeFilter"
+        },
+        "langDE": {
+          "key": "lang",
+          "constraint": "de",
+          "fn": "langDE"
+        },
+        "langEN": {
+          "key": "lang",
+          "constraint": "en",
+          "fn": "langEN"
+        },
+        "restMessage": {
+          "key": "rest",
+          "fn": "restMessage"
+        }
+      }
+    }
+  },
+  "doc": {
+    "fundamentals": {
+      "dir": "{{app.dir}}/fundamentals",
+      "signal": {
+        "entry": {
+          "nav": {
+            "target": "{{app.target.nav}}",
+            "url": "{{pub.dir}}/nav/blank"
+          },
+          "main": {
+            "target": "{{app.target.main}}",
+            "url": "{{doc.fundamentals.dir}}/signal"
+          }
+        },
+        "show": {
+          "click": {
+            "emit1": {
+              "key": "signal",
+              "constraint": "show"
+            },
+            "emit2": {
+              "key": "sidebar",
+              "constraint": "close",
+              "data": {
+                "nodes": {
+                  "sidebar": "public.sidebar.ptr"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ds": {
+        "entry": {
+          "nav": {
+            "target": "{{app.target.nav}}",
+            "url": "{{pub.dir}}/nav/blank"
+          },
+          "main": {
+            "target": "{{app.target.main}}",
+            "url": "{{doc.fundamentals.dir}}/ds"
+          }
+        },
+        "show": {
+          "click": {
+            "emit1": {
+              "key": "ds",
+              "constraint": "show"
+            },
+            "emit2": {
+              "key": "sidebar",
+              "constraint": "close",
+              "data": {
+                "nodes": {
+                  "sidebar": "public.sidebar.ptr"
+                }
+              }
+            }
+          }
+        }
+      },
+      "dit": {
+        "entry": {
+          "nav": {
+            "target": "{{app.target.nav}}",
+            "url": "{{pub.dir}}/nav/blank"
+          },
+          "main": {
+            "target": "{{app.target.main}}",
+            "url": "{{doc.fundamentals.dir}}/dit"
+          }
+        },
+        "show": {
+          "click": {
+            "emit1": {
+              "key": "dit",
+              "constraint": "show"
+            },
+            "emit2": {
+              "key": "sidebar",
+              "constraint": "close",
+              "data": {
+                "nodes": {
+                  "sidebar": "public.sidebar.ptr"
+                }
+              }
+            }
+          }
+        }
+      },
+      "smart": {
+        "entry": {
+          "nav": {
+            "target": "{{app.target.nav}}",
+            "url": "{{pub.dir}}/nav/blank"
+          },
+          "main": {
+            "target": "{{app.target.main}}",
+            "url": "{{doc.fundamentals.dir}}/smart"
+          }
+        },
+        "show": {
+          "click": {
+            "emit1": {
+              "key": "smart",
+              "constraint": "show"
+            },
+            "emit2": {
+              "key": "sidebar",
+              "constraint": "close",
+              "data": {
+                "nodes": {
+                  "sidebar": "public.sidebar.ptr"
+                }
+              }
+            }
+          }
+        }
+      },
+      "bootstrap": {
+        "entry": {
+          "nav": {
+            "target": "{{app.target.nav}}",
+            "url": "{{pub.dir}}/nav/blank"
+          },
+          "main": {
+            "target": "{{app.target.main}}",
+            "url": "{{doc.fundamentals.dir}}/bootstrap"
+          }
+        },
+        "show": {
+          "click": {
+            "emit1": {
+              "key": "bootstrap",
+              "constraint": "show"
+            },
+            "emit2": {
+              "key": "sidebar",
+              "constraint": "close",
+              "data": {
+                "nodes": {
+                  "sidebar": "public.sidebar.ptr"
+                }
+              }
+            }
+          }
+        }
+      },
+      "dom": {
+        "entry": {
+          "nav": {
+            "target": "{{app.target.nav}}",
+            "url": "{{pub.dir}}/nav/blank"
+          },
+          "main": {
+            "target": "{{app.target.main}}",
+            "url": "{{doc.fundamentals.dir}}/dom"
+          }
+        },
+        "show": {
+          "click": {
+            "emit1": {
+              "key": "dom",
+              "constraint": "show"
+            },
+            "emit2": {
+              "key": "sidebar",
+              "constraint": "close",
+              "data": {
+                "nodes": {
+                  "sidebar": "public.sidebar.ptr"
+                }
+              }
+            }
+          }
+        }
+      },
+      "rest": {
+        "entry": {
+          "nav": {
+            "target": "{{app.target.nav}}",
+            "url": "{{pub.dir}}/nav/blank"
+          },
+          "main": {
+            "target": "{{app.target.main}}",
+            "url": "{{doc.fundamentals.dir}}/rest"
+          }
+        },
+        "show": {
+          "click": {
+            "emit1": {
+              "key": "rest",
+              "constraint": "show"
+            },
+            "emit2": {
+              "key": "sidebar",
+              "constraint": "close",
+              "data": {
+                "nodes": {
+                  "sidebar": "public.sidebar.ptr"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "ui": {
+      "dir": "{{app.dir}}/ui",
+      "list": {
+        "entry": {
+          "nav": {
+            "target": "{{app.target.nav}}",
+            "url": "{{pub.dir}}/nav/blank"
+          },
+          "main": {
+            "target": "{{app.target.main}}",
+            "url": "{{doc.ui.dir}}/list"
+          }
+        },
+        "show": {
+          "click": {
+            "emit1": {
+              "key": "docList",
+              "constraint": "show"
+            },
+            "emit2": {
+              "key": "sidebar",
+              "constraint": "close",
+              "data": {
+                "nodes": {
+                  "sidebar": "public.sidebar.ptr"
+                }
+              }
+            }
+          }
+        }
+      },
+      "site": {
+        "entry": {
+          "nav": {
+            "target": "{{app.target.nav}}",
+            "url": "{{pub.dir}}/nav/blank"
+          },
+          "main": {
+            "target": "{{app.target.main}}",
+            "url": "{{doc.ui.dir}}/site"
+          }
+        },
+        "show": {
+          "click": {
+            "emit1": {
+              "key": "site",
+              "constraint": "show"
+            },
+            "emit2": {
+              "key": "sidebar",
+              "constraint": "close",
+              "data": {
+                "nodes": {
+                  "sidebar": "public.sidebar.ptr"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "language": {
+      "dir": "{{app.dir}}/language",
+      "lang": {
+        "entry": {
+          "nav": {
+            "target": "{{app.target.nav}}",
+            "url": "{{pub.dir}}/nav/blank"
+          },
+          "main": {
+            "target": "{{app.target.main}}",
+            "url": "{{doc.language.dir}}/lang"
+          }
+        },
+        "show": {
+          "click": {
+            "emit1": {
+              "key": "lang",
+              "constraint": "show"
+            },
+            "emit2": {
+              "key": "sidebar",
+              "constraint": "close",
+              "data": {
+                "nodes": {
+                  "sidebar": "public.sidebar.ptr"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "misc": {
+      "dir": "{{app.dir}}/misc",
+      "tools": {
+        "entry": {
+          "nav": {
+            "target": "{{app.target.nav}}",
+            "url": "{{pub.dir}}/nav/blank"
+          },
+          "main": {
+            "target": "{{app.target.main}}",
+            "url": "{{doc.misc.dir}}/tools"
+          }
+        },
+        "show": {
+          "click": {
+            "emit1": {
+              "key": "tools",
+              "constraint": "show"
+            },
+            "emit2": {
+              "key": "sidebar",
+              "constraint": "close",
+              "data": {
+                "nodes": {
+                  "sidebar": "public.sidebar.ptr"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "install": {
+      "dir": "{{app.dir}}/installation",
+      "ijs": {
+        "entry": {
+          "nav": {
+            "target": "{{app.target.nav}}",
+            "url": "{{pub.dir}}/nav/blank"
+          },
+          "main": {
+            "target": "{{app.target.main}}",
+            "url": "{{doc.install.dir}}/install"
+          }
+        },
+        "show": {
+          "click": {
+            "emit1": {
+              "key": "install",
+              "constraint": "show"
+            },
+            "emit2": {
+              "key": "sidebar",
+              "constraint": "close",
+              "data": {
+                "nodes": {
+                  "sidebar": "public.sidebar.ptr"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "user": {
+    "name": "User Application",
+    "dir": "{{app.dir}}/user",
+    "ds": {
+      "name": "user",
+      "ptr": true
+    },
+    "list": {
+      "entry": {
+        "nav": {
+          "target": "{{app.target.nav}}",
+          "url": "{{pub.dir}}/nav/list"
+        },
+        "main": {
+          "target": "{{app.target.main}}",
+          "url": "{{user.dir}}/list"
+        }
+      },
+      "scroll": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    "site": {
+      "entry": {
+        "nav": {
+          "target": "{{app.target.nav}}",
+          "url": "{{pub.dir}}/nav/site"
+        },
+        "main": {
+          "target": "{{app.target.main}}",
+          "url": "{{user.dir}}/site"
+        }
+      }
+    },
+    "rest": {
+      "url": {
+        "equal": true,
+        "any": "/user"
+      }
+    },
+    "modal": {
+      "show": {
+        "click": {
+          "emit1": {
+            "key": "modal.user",
+            "constraint": "show"
+          },
+          "emit2": {
+            "key": "sidebar",
+            "constraint": "close",
+            "data": {
+              "nodes": {
+                "sidebar": "public.sidebar.ptr"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
