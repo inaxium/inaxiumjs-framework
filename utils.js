@@ -28,6 +28,9 @@ import Qs from "./qs.js";
 import Type from "./type.js";
 import DateTime from "./luxon.js";
 
+export const GET = Symbol("get"),
+  SET = Symbol("set");
+
 export default class Utils {
   constructor() {}
 
@@ -314,5 +317,17 @@ Utils.Date = class {
     }
 
     return response.toISO();
+  }
+};
+
+Utils.Node = class {
+  static content(adi, value) {
+    const ha = adi.node.hasAttribute,
+      ga = adi.node.getAttribute;
+    if ((ha("type") && ga("type") === "date") || ha("date")) {
+      adi.data = node.hasAttribute("fmt")
+        ? DateTime.fromISO(value.iso).toFormat(node.getAttribute("fmt"))
+        : value.fmt;
+    }
   }
 };

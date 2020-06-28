@@ -37,6 +37,8 @@ export default class Site extends SignalEvaluation {
     this.ou.add({ path: SITE, ptr: ds.dit.get(SITE) });
 
     this.prepare();
+
+    this.init && this.init.call(this, this.props);
   }
 
   prepare() {
@@ -56,7 +58,16 @@ export default class Site extends SignalEvaluation {
     if (dsPtr.mode === NEW && this.newRow) {
       this.newRow.call(this, this.props);
     } else {
-      this.props.set(PAYLOAD, dsPtr.get(dsPtr.selected));
+      // Check is Date and Transform to String
+      const row = {};
+      for (let [key, value] of Object.entries(dsPtr.get(dsPtr.selected))) {
+        if (typeof value === "object" && value.isDate) {
+          row[key] = value.dateTime;
+        } else {
+          row[key] = value;
+        }
+      }
+      this.props.set(PAYLOAD, row);
     }
 
     restPost(this.props);

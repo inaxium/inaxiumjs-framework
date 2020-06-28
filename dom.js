@@ -19,7 +19,6 @@ import XAttributes from "./attach.js";
 import Bootstrap from "./bootstrap.js";
 import Error from "./utils.js";
 import Utils from "./utils.js";
-import Lang from "./lang.js";
 import IframeDoc from "./iframedoc.js";
 
 class XBootstrap extends HTMLElement {
@@ -540,6 +539,36 @@ class XNav extends HTMLElement {
   }
 }
 
+class XTr extends HTMLTableRowElement {
+  constructor() {
+    super();
+    this.adi = new XAttributes(this);
+  }
+
+  connectedCallback() {
+    this.adi.addAttributes();
+  }
+
+  disconnectedCallback() {
+    this.adi.clean();
+  }
+}
+
+class XTd extends HTMLTableCellElement {
+  constructor() {
+    super();
+    this.adi = new XAttributes(this);
+  }
+
+  connectedCallback() {
+    this.adi.addAttributes();
+  }
+
+  disconnectedCallback() {
+    this.adi.clean();
+  }
+}
+
 customElements.define("x-button", XButton, { extends: "button" });
 customElements.define("x-div", XDiv, { extends: "div" });
 customElements.define("x-input", XInput, { extends: "input" });
@@ -552,6 +581,8 @@ customElements.define("x-a", XAnchor, { extends: "a" });
 customElements.define("x-ul", XUnorderedList, { extends: "ul" });
 customElements.define("x-ol", XOrderedList, { extends: "ol" });
 customElements.define("x-li", XList, { extends: "li" });
+customElements.define("x-tr", XTr, { extends: "tr" });
+customElements.define("x-td", XTd, { extends: "td" });
 customElements.define("x-script", XScript, { extends: "script" });
 customElements.define("x-p", XParagraph, { extends: "p" });
 customElements.define("x-span", XSpan, { extends: "span" });

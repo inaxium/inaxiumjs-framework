@@ -39,24 +39,24 @@
       "last": true
     }
   },
-  "lang": {
+  "language": {
     "Money Description": "Out of the Box we use Intl.NumberFormat.",
     "de": {
       "money": {
         "locals": "de-DE",
         "currency": "EUR",
         "style": "currency"
-      }
+      },"date": {"use":true, "input": "yyyy-MM-dd", "other": "dd.MM.yyyy"}
     },
     "en": {
-      "money": {
+      "money": {"default": {}, "input": {},
         "locals": "en-GB",
         "currency": "GBP",
         "style": "currency"
-      }
+      },"date": {"use":true, "input": "yyyy-MM-dd", "other": "dd/MM/yyyy"}
     },
-    "recently": "de",
-    "current": "de"
+    "recently": "en",
+    "current": "en"
   },
   "initializer": {
     "gui": {
@@ -66,65 +66,10 @@
           "constraint": "show",
           "fn": "showUser"
         },
-        "showSignal": {
-          "key": "signal",
+        "showLanguage": {
+          "key": "language.list",
           "constraint": "show",
-          "fn": "showSignal"
-        },
-        "showDataStore": {
-          "key": "ds",
-          "constraint": "show",
-          "fn": "showDataStore"
-        },
-        "showDataInformationTree": {
-          "key": "dit",
-          "constraint": "show",
-          "fn": "showDataInformationTree"
-        },
-        "showSmartElement": {
-          "key": "smart",
-          "constraint": "show",
-          "fn": "showSmartElement"
-        },
-        "showBootstrap": {
-          "key": "bootstrap",
-          "constraint": "show",
-          "fn": "showBootstrap"
-        },
-        "showDom": {
-          "key": "dom",
-          "constraint": "show",
-          "fn": "showDom"
-        },
-        "showRest": {
-          "key": "rest",
-          "constraint": "show",
-          "fn": "showRest"
-        },
-        "showList": {
-          "key": "docList",
-          "constraint": "show",
-          "fn": "showList"
-        },
-        "showSite": {
-          "key": "site",
-          "constraint": "show",
-          "fn": "showSite"
-        },
-        "showLang": {
-          "key": "lang",
-          "constraint": "show",
-          "fn": "showLang"
-        },
-        "showTools": {
-          "key": "tools",
-          "constraint": "show",
-          "fn": "showTools"
-        },
-        "showInstall": {
-          "key": "install",
-          "constraint": "show",
-          "fn": "showInstall"
+          "fn": "showLanguage"
         }
       }
     }
@@ -393,371 +338,6 @@
       }
     }
   },
-  "doc": {
-    "fundamentals": {
-      "dir": "{{app.dir}}/fundamentals",
-      "signal": {
-        "entry": {
-          "nav": {
-            "target": "{{app.target.nav}}",
-            "url": "{{pub.dir}}/nav/blank"
-          },
-          "main": {
-            "target": "{{app.target.main}}",
-            "url": "{{doc.fundamentals.dir}}/signal"
-          }
-        },
-        "show": {
-          "click": {
-            "emit1": {
-              "key": "signal",
-              "constraint": "show"
-            },
-            "emit2": {
-              "key": "sidebar",
-              "constraint": "close",
-              "data": {
-                "nodes": {
-                  "sidebar": "public.sidebar.ptr"
-                }
-              }
-            }
-          }
-        }
-      },
-      "ds": {
-        "entry": {
-          "nav": {
-            "target": "{{app.target.nav}}",
-            "url": "{{pub.dir}}/nav/blank"
-          },
-          "main": {
-            "target": "{{app.target.main}}",
-            "url": "{{doc.fundamentals.dir}}/ds"
-          }
-        },
-        "show": {
-          "click": {
-            "emit1": {
-              "key": "ds",
-              "constraint": "show"
-            },
-            "emit2": {
-              "key": "sidebar",
-              "constraint": "close",
-              "data": {
-                "nodes": {
-                  "sidebar": "public.sidebar.ptr"
-                }
-              }
-            }
-          }
-        }
-      },
-      "dit": {
-        "entry": {
-          "nav": {
-            "target": "{{app.target.nav}}",
-            "url": "{{pub.dir}}/nav/blank"
-          },
-          "main": {
-            "target": "{{app.target.main}}",
-            "url": "{{doc.fundamentals.dir}}/dit"
-          }
-        },
-        "show": {
-          "click": {
-            "emit1": {
-              "key": "dit",
-              "constraint": "show"
-            },
-            "emit2": {
-              "key": "sidebar",
-              "constraint": "close",
-              "data": {
-                "nodes": {
-                  "sidebar": "public.sidebar.ptr"
-                }
-              }
-            }
-          }
-        }
-      },
-      "smart": {
-        "entry": {
-          "nav": {
-            "target": "{{app.target.nav}}",
-            "url": "{{pub.dir}}/nav/blank"
-          },
-          "main": {
-            "target": "{{app.target.main}}",
-            "url": "{{doc.fundamentals.dir}}/smart"
-          }
-        },
-        "show": {
-          "click": {
-            "emit1": {
-              "key": "smart",
-              "constraint": "show"
-            },
-            "emit2": {
-              "key": "sidebar",
-              "constraint": "close",
-              "data": {
-                "nodes": {
-                  "sidebar": "public.sidebar.ptr"
-                }
-              }
-            }
-          }
-        }
-      },
-      "bootstrap": {
-        "entry": {
-          "nav": {
-            "target": "{{app.target.nav}}",
-            "url": "{{pub.dir}}/nav/blank"
-          },
-          "main": {
-            "target": "{{app.target.main}}",
-            "url": "{{doc.fundamentals.dir}}/bootstrap"
-          }
-        },
-        "show": {
-          "click": {
-            "emit1": {
-              "key": "bootstrap",
-              "constraint": "show"
-            },
-            "emit2": {
-              "key": "sidebar",
-              "constraint": "close",
-              "data": {
-                "nodes": {
-                  "sidebar": "public.sidebar.ptr"
-                }
-              }
-            }
-          }
-        }
-      },
-      "dom": {
-        "entry": {
-          "nav": {
-            "target": "{{app.target.nav}}",
-            "url": "{{pub.dir}}/nav/blank"
-          },
-          "main": {
-            "target": "{{app.target.main}}",
-            "url": "{{doc.fundamentals.dir}}/dom"
-          }
-        },
-        "show": {
-          "click": {
-            "emit1": {
-              "key": "dom",
-              "constraint": "show"
-            },
-            "emit2": {
-              "key": "sidebar",
-              "constraint": "close",
-              "data": {
-                "nodes": {
-                  "sidebar": "public.sidebar.ptr"
-                }
-              }
-            }
-          }
-        }
-      },
-      "rest": {
-        "entry": {
-          "nav": {
-            "target": "{{app.target.nav}}",
-            "url": "{{pub.dir}}/nav/blank"
-          },
-          "main": {
-            "target": "{{app.target.main}}",
-            "url": "{{doc.fundamentals.dir}}/rest"
-          }
-        },
-        "show": {
-          "click": {
-            "emit1": {
-              "key": "rest",
-              "constraint": "show"
-            },
-            "emit2": {
-              "key": "sidebar",
-              "constraint": "close",
-              "data": {
-                "nodes": {
-                  "sidebar": "public.sidebar.ptr"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "ui": {
-      "dir": "{{app.dir}}/ui",
-      "list": {
-        "entry": {
-          "nav": {
-            "target": "{{app.target.nav}}",
-            "url": "{{pub.dir}}/nav/blank"
-          },
-          "main": {
-            "target": "{{app.target.main}}",
-            "url": "{{doc.ui.dir}}/list"
-          }
-        },
-        "show": {
-          "click": {
-            "emit1": {
-              "key": "docList",
-              "constraint": "show"
-            },
-            "emit2": {
-              "key": "sidebar",
-              "constraint": "close",
-              "data": {
-                "nodes": {
-                  "sidebar": "public.sidebar.ptr"
-                }
-              }
-            }
-          }
-        }
-      },
-      "site": {
-        "entry": {
-          "nav": {
-            "target": "{{app.target.nav}}",
-            "url": "{{pub.dir}}/nav/blank"
-          },
-          "main": {
-            "target": "{{app.target.main}}",
-            "url": "{{doc.ui.dir}}/site"
-          }
-        },
-        "show": {
-          "click": {
-            "emit1": {
-              "key": "site",
-              "constraint": "show"
-            },
-            "emit2": {
-              "key": "sidebar",
-              "constraint": "close",
-              "data": {
-                "nodes": {
-                  "sidebar": "public.sidebar.ptr"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "language": {
-      "dir": "{{app.dir}}/language",
-      "lang": {
-        "entry": {
-          "nav": {
-            "target": "{{app.target.nav}}",
-            "url": "{{pub.dir}}/nav/blank"
-          },
-          "main": {
-            "target": "{{app.target.main}}",
-            "url": "{{doc.language.dir}}/lang"
-          }
-        },
-        "show": {
-          "click": {
-            "emit1": {
-              "key": "lang",
-              "constraint": "show"
-            },
-            "emit2": {
-              "key": "sidebar",
-              "constraint": "close",
-              "data": {
-                "nodes": {
-                  "sidebar": "public.sidebar.ptr"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "misc": {
-      "dir": "{{app.dir}}/misc",
-      "tools": {
-        "entry": {
-          "nav": {
-            "target": "{{app.target.nav}}",
-            "url": "{{pub.dir}}/nav/blank"
-          },
-          "main": {
-            "target": "{{app.target.main}}",
-            "url": "{{doc.misc.dir}}/tools"
-          }
-        },
-        "show": {
-          "click": {
-            "emit1": {
-              "key": "tools",
-              "constraint": "show"
-            },
-            "emit2": {
-              "key": "sidebar",
-              "constraint": "close",
-              "data": {
-                "nodes": {
-                  "sidebar": "public.sidebar.ptr"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "install": {
-      "dir": "{{app.dir}}/installation",
-      "ijs": {
-        "entry": {
-          "nav": {
-            "target": "{{app.target.nav}}",
-            "url": "{{pub.dir}}/nav/blank"
-          },
-          "main": {
-            "target": "{{app.target.main}}",
-            "url": "{{doc.install.dir}}/install"
-          }
-        },
-        "show": {
-          "click": {
-            "emit1": {
-              "key": "install",
-              "constraint": "show"
-            },
-            "emit2": {
-              "key": "sidebar",
-              "constraint": "close",
-              "data": {
-                "nodes": {
-                  "sidebar": "public.sidebar.ptr"
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  },
   "user": {
     "name": "User Application",
     "dir": "{{app.dir}}/user",
@@ -804,6 +384,74 @@
         "click": {
           "emit1": {
             "key": "modal.user",
+            "constraint": "show"
+          },
+          "emit2": {
+            "key": "sidebar",
+            "constraint": "close",
+            "data": {
+              "nodes": {
+                "sidebar": "public.sidebar.ptr"
+              }
+            }
+          }
+        }
+      }
+    },
+    "on": {
+      "chooseCountry": {
+        "key": "user",
+        "constraint": "chooseCountry",
+        "fn": "chooseCountry"
+      }
+    }
+  },
+  "lang": {
+    "name": "Lang Application",
+    "dir": "{{app.dir}}/lang",
+    "ds": {
+      "name": "lang",
+      "ptr": true
+    },
+    "list": {
+      "entry": {
+        "nav": {
+          "target": "{{app.target.nav}}",
+          "url": "{{pub.dir}}/nav/list"
+        },
+        "main": {
+          "target": "{{app.target.main}}",
+          "url": "{{lang.dir}}/list"
+        }
+      },
+      "scroll": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    "site": {
+      "entry": {
+        "nav": {
+          "target": "{{app.target.nav}}",
+          "url": "{{pub.dir}}/nav/site"
+        },
+        "main": {
+          "target": "{{app.target.main}}",
+          "url": "{{lang.dir}}/site"
+        }
+      }
+    },
+    "rest": {
+      "url": {
+        "equal": true,
+        "any": "/lang"
+      }
+    },
+    "show": {
+      "list": {
+        "click": {
+          "emit1": {
+            "key": "language.list",
             "constraint": "show"
           },
           "emit2": {

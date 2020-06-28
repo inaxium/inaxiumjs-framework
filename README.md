@@ -19,3 +19,8 @@ Configuration over coding is the motto.
 ### Documentation and everything else
 
 [inaxiumjs.com](https://inaxiumjs.com)
+
+### Version
+
+The current version is 2.1
+

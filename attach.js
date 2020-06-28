@@ -25,13 +25,14 @@ import {
   TRUNCATED,
   SELECTION_CHANGED,
   CLICK,
-  X_CLICK,
   X_DIT,
   X_HIDDEN,
 } from "./const.js";
 import Lang from "./lang.js";
+import DateTime from "./luxon.js";
 
-const NODES = "nodes";
+const NODES = "nodes",
+  LANG = "language";
 
 export default class XAttributes {
   #signal;
@@ -56,6 +57,7 @@ export default class XAttributes {
   #frozenId;
   #ou = new Set();
   #langClass = new Lang();
+  #fmt;
 
   #isReplicator = () => {
     if (Attribute.Has.replicator(this.node)) {
@@ -99,8 +101,8 @@ export default class XAttributes {
         const dit = ds.dit.get(this.ds.name);
         this.ds.selected = this.id;
 
-        if (dit && dit.list && dit.list.scroll) {
-          dit.list.scroll.y = document.body.scrollHeight;
+        if (dit) {
+          dit.list.scroll.y = window.pageYOffset;
         }
       });
 
@@ -203,6 +205,7 @@ export default class XAttributes {
         this.has.receiver = true;
         this.receiver = start;
         this.ds = start.adi.ds;
+        this.id = this.receiver.adi.id;
 
         break;
       } else {
@@ -216,21 +219,24 @@ export default class XAttributes {
   };
 
   #hasClick = () => {
-    if (this.node.hasAttribute(X_CLICK)) {
-      this.click = new Click(Attribute.Get.click(this.node), this);
+    if (this.node.hasAttribute("click")) {
+      this.click = new Click(this.node.getAttribute("click"), this);
 
       if (Attribute.Has.dit(this.node)) {
         this.has.dit = true;
       }
 
       if (!this.click.value)
-        throw `x-click implemented without value => x-click="key.constraint" or x-click="key"`;
+        throw `click implemented without value => click="key.constraint" or click="key"`;
 
       addClickFeature(this.node);
     }
   };
 
   #hasDit = () => {
+    /*
+        Idea was that only no field Elements could have an OU. But perhaps this Idea was wrong.
+     */
     if (!this.node.hasAttribute("field")) {
       let path;
 
@@ -342,9 +348,44 @@ export default class XAttributes {
   }
 
   set data(value) {
-    this.#data = value;
+    if (!value) {
+      if (value !== "") {
+        return;
+      }
+    }
 
-    if (this.node instanceof HTMLInputElement) {
+    if (typeof value === "object" && value.isDate) {
+      const fmt = this.node.hasAttribute("fmt")
+        ? this.node.getAttribute("fmt")
+        : this.node instanceof HTMLInputElement
+        ? ds.dit.get(LANG)[ds.dit.get(LANG).current].date.input
+        : ds.dit.get(LANG)[ds.dit.get(LANG).current].date.other;
+
+      this.#data = DateTime.fromISO(value.dateTime).toFormat(fmt);
+    } else if (!isNaN(value) && this.node.hasAttribute("fmt")) {
+      let locals, currency, style;
+      if (this.node.getAttribute("fmt")) {
+        [locals, currency, style] = this.node.getAttribute("fmt").split("|");
+      } else {
+        const money = ds.dit.get(LANG)[ds.dit.get(LANG).current].money;
+        locals = money.locals;
+        currency = money.currency;
+        style = money.style;
+      }
+
+      this.#data = new Intl.NumberFormat(locals, {
+        style: style,
+        currency: currency,
+      }).format(value);
+    } else {
+      this.#data = value;
+    }
+
+    if (
+      this.node instanceof HTMLInputElement ||
+      this.node instanceof HTMLTextAreaElement ||
+      this.node instanceof HTMLButtonElement
+    ) {
       this.node.value = this.#data;
     } else {
       this.node.innerHTML = this.#data;
@@ -475,6 +516,26 @@ export default class XAttributes {
     }
   }
 
+  set fmt(value) {
+    this.#fmt = value;
+  }
+
+  get fmt() {
+    return this.#fmt;
+  }
+
+  pa(deep = 1) {
+    let start = this.node;
+
+    for (let counter = 0; counter < deep; counter++) {
+      if (start) {
+        start = start.parentElement;
+      }
+    }
+
+    return start;
+  }
+
   /*
       Functions
    */
@@ -557,6 +618,7 @@ class Is {
   #nav = false;
   #hidden = true;
   #immutable = false;
+  #date = false;
 
   constructor(parent) {
     this.#parent = parent;
@@ -625,6 +687,14 @@ class Is {
     } else {
       this.#parent.classList.remove(X_HIDDEN);
     }
+  }
+
+  get date() {
+    return this.#date;
+  }
+
+  set date(value) {
+    this.#date = value;
   }
 }
 

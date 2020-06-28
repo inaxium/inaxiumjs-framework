@@ -21,7 +21,8 @@ import Attribute from "./attribute.js";
 import Rest from "./rest.js";
 import { XLang } from "./dom.js";
 
-const LANG = "lang";
+const LANG = "lang",
+  LANGUAGE = "language";
 
 export default class Lang {
   #signal = new Signal(this);
@@ -42,6 +43,7 @@ export default class Lang {
 
   addLangFeature(el) {
     if (!el) throw "no HTMLElement was given";
+    if (el.hasAttribute("noLang") || el.hasAttribute("nolang")) return;
 
     const proc = (el, data) => {
       if (Attribute.Has.Not.lang(el) && this.notNative(el)) return;
@@ -49,9 +51,9 @@ export default class Lang {
 
       if (!data) data = {};
 
-      const currentLang = !ds.dit.get(LANG).current
+      const currentLang = !ds.dit.get(LANGUAGE).current
         ? navigator.language.substring(0, 2)
-        : ds.dit.get(LANG).current;
+        : ds.dit.get(LANGUAGE).current;
       if (!data.old) data.old = InaxiumJS.recentlyLang;
       if (!data.new) data.new = currentLang;
 
@@ -153,10 +155,10 @@ export default class Lang {
   }
 
   static line(id) {
-    if (!ds.dit.get(LANG).current)
-      throw "No language found in => ds.dit.get(LANG).current";
+    if (!ds.dit.get(LANGUAGE).current)
+      throw "No language found in => ds.dit.get(LANGUAGE).current";
 
-    return ds[LANG].get(id)[ds.dit.get(LANG).current];
+    return ds[LANG].get(id)[ds.dit.get(LANGUAGE).current];
   }
 
   clean() {

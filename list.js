@@ -36,6 +36,8 @@ export default class List extends SignalEvaluation {
     this.ou.add({ path: LIST, ptr: ds.dit.get(LIST) });
 
     this.prepare();
+
+    this.init && this.init.call(this, this.props);
   }
 
   prepare() {
@@ -47,7 +49,7 @@ export default class List extends SignalEvaluation {
     this.props.set(SIGNAL, this.signal);
     this.props.set(URL, url.equal ? url.any : url.get);
 
-    window.scroll(scroll.x, scroll.y);
+    window.scrollTo(scroll.x, scroll.y);
 
     this.start();
   }

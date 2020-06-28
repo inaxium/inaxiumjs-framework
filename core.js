@@ -16,20 +16,14 @@
  */
 
 import {
-  DATA,
   UI_SELECTION_CHANGED,
   REMOVE_YOURSELF_BY_ID,
-  INNER,
-  VALUE,
-  CHECKBOX,
   REFRESH,
   INSERTED,
   REMOVED,
   APP,
   REMOVE_YOURSELF_BY_RID,
 } from "./const.js";
-import Attribute, { Module } from "./attribute.js";
-import Utils from "./utils.js";
 
 export default class Core {}
 
@@ -81,13 +75,12 @@ export function prepareReplicator(el) {
         // Traverse children and give data Attributes
 
         for (const child of replica.children) {
-          //child.adi.id = replica.adi.id;
+          child.adi.id = replica.adi.id;
           child.adi.field = child.getAttribute("field");
           child.adi.data = row[child.adi.field];
           child.adi.ds = replica.adi.ds;
           child.adi.has.replica = true;
           child.adi.replica = replica;
-          setNodeContent(child, child.adi.data);
         }
 
         last.after(replica);
@@ -108,102 +101,4 @@ export function prepareReplicator(el) {
   };
 
   el.adi.ds.size > 0 && processing();
-}
-
-function setNodeContent(el, value, trigger) {
-  let field = el.getAttribute("field");
-
-  if (field.includes("@")) {
-    let [s, f] = field.split("@");
-
-    let module = new Module(s, f);
-
-    if (!f) throw "No Function given.";
-
-    if (!s) module = Attribute.Get.script(el, module);
-
-    if (!module.script)
-      throw "The x-dynamic-script tag could not be found in the document.";
-
-    import(module.script)
-      .then((m) => {
-        if (!m[module.func]) {
-          throw `The specified function => (${module.func}) could not be found in the script.`;
-        } else {
-          try {
-            module.data = m[module.func].call(this, el, value);
-            setNodeContentWithValue(module.data, el);
-          } catch (err) {
-            console.log(err);
-          }
-        }
-      })
-      .catch((error) => {
-        throw error;
-      });
-  } else {
-    setNodeContentWithValue(value, el);
-  }
-}
-
-function setNodeContentWithValue(value, el) {
-  let check_flag = true,
-    cfg = InaxiumJS.config;
-
-  if (el instanceof HTMLImageElement) {
-    check_flag = false;
-    el.src = value;
-  }
-
-  if (check_flag) {
-    for (let comp of INNER) {
-      if (el instanceof comp) {
-        // Normal treatment
-        if (Attribute.Has.date(el)) {
-          let format = Attribute.Get.date(el);
-
-          if (!format) {
-            if (!cfg.dateFormat) {
-              throw "x-date given without format string";
-            } else {
-              format = cfg.dateFormat;
-            }
-          }
-
-          el.innerHTML = Utils.Date.fromIso(value);
-          check_flag = false;
-        } else if (Attribute.Has.currency(el)) {
-          Utils.currency(new Map([[DATA, el]]));
-        } else {
-          el.innerHTML = value;
-          check_flag = false;
-        }
-
-        break;
-      }
-    }
-  }
-
-  if (check_flag) {
-    for (let comp of VALUE) {
-      if (el instanceof comp) {
-        if (Attribute.Has.type(el) && Attribute.Get.type(el) === CHECKBOX) {
-          el.checked = value;
-          check_flag = false;
-          break;
-        } else {
-          if (Attribute.Has.date(el)) {
-            el.value = Utils.Date.fromIso(value);
-          } else if (Attribute.Has.currency(el)) {
-            Utils.currency(new Map([[DATA, el]]));
-          } else {
-            el.value = value;
-          }
-
-          check_flag = false;
-          break;
-        }
-      }
-    }
-  }
 }

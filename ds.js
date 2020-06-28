@@ -30,6 +30,9 @@ import {
   EDIT,
 } from "./const.js";
 import Signal from "./signal.js";
+import DateTime from "./luxon.js";
+
+const LANG = "language";
 
 export default class DataStorage {
   addStore(name) {
@@ -113,30 +116,61 @@ class DataStorageManager extends Map {
       }
 
       for (const row of props.get(DATA)) {
-        const proxy = new Proxy(row, {
-          set(target, key, value) {
-            if (key === "meta") {
-              this.meta = value;
-            } else {
-              target[key] = value;
+        const proxy = new Proxy(
+          {},
+          {
+            set(target, key, value) {
+              if (key === "meta") {
+                this.meta = value;
+              } else {
+                target[key] = value;
 
-              const meta = this.meta;
-              this.meta.signal.emit(DATA_FIELD_CHANGED, meta.storageName, {
-                id: meta.id,
-                ds: ds[meta.storageName],
-                field: key,
-                value: value,
-              });
-            }
-            return true;
-          },
-        });
+                const regex1 = /([12]\d{3}([\/\-.])(0[1-9]|1[0-2])([\/\-.])(0[1-9]|[12]\d|3[01]))/,
+                  regex2 = /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d)|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d)/;
+
+                if (regex1.test(value) || regex2.test(value)) {
+                  if (ds.dit.get(LANG)[ds.dit.get(LANG).current].date.use) {
+                    let format = ds.dit.get(LANG)[ds.dit.get(LANG).current].date
+                      .ds;
+
+                    target[key] = {
+                      isDate: true,
+                      dateTime: regex1.test(value)
+                        ? new Date(value).toJSON()
+                        : DateTime.fromISO(value),
+                      format: format,
+                    };
+                  } else {
+                    target[key] = value;
+                  }
+                } else {
+                  target[key] = value;
+                }
+                const meta = this.meta;
+                this.meta.signal.emit(DATA_FIELD_CHANGED, meta.storageName, {
+                  id: meta.id,
+                  ds: ds[meta.storageName],
+                  field: key,
+                  value: value,
+                });
+              }
+              return true;
+            },
+            get: function (obj, prop) {
+              return obj[prop];
+            },
+          }
+        );
 
         proxy.meta = {
           id: row.id,
           storageName: this.name,
           signal: this.signal,
         };
+
+        for (let [key, value] of Object.entries(row)) {
+          proxy[key] = value;
+        }
 
         this.set(row.id, proxy);
       }
