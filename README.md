@@ -15,11 +15,6 @@ We wanted to keep the programming effort for the framework user as low as possib
 
 Configuration over coding is the motto.
 
-
-### Documentation and everything else
-
-[inaxiumjs.com](https://inaxiumjs.com)
-
 ### Version
 
 The current version is 2.1
